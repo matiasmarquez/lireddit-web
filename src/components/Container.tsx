@@ -1,8 +1,10 @@
 import React from "react";
 import { Box } from "@chakra-ui/core";
 
+export type ContainerVariant = "small" | "regular";
+
 interface ContainerProps {
-	variant?: "small" | "regular";
+	variant?: ContainerVariant;
 }
 
 export const Container: React.FC<ContainerProps> = ({
