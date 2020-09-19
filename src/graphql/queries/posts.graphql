@@ -3,6 +3,10 @@ query Posts($limit: Int!, $cursor: String) {
 		hasMore
 		posts {
 			id
+			author {
+				id
+				username
+			}
 			createdAt
 			updatedAt
 			title
