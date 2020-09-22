@@ -42,6 +42,7 @@ export type Post = {
   id: Scalars['Int'];
   authorId: Scalars['Float'];
   author: User;
+  voteStatus?: Maybe<Scalars['Int']>;
   title: Scalars['String'];
   text: Scalars['String'];
   points: Scalars['Float'];
@@ -141,7 +142,7 @@ export type UsernamePasswordInput = {
 
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'shortText' | 'points'>
+  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'shortText' | 'points' | 'voteStatus'>
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username'>
@@ -293,6 +294,7 @@ export const PostSnippetFragmentDoc = gql`
   title
   shortText
   points
+  voteStatus
 }
     `;
 export const RegularUserFragmentDoc = gql`
