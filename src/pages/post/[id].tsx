@@ -1,22 +1,13 @@
 import React from "react";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
-import { usePostQuery } from "../../generated/graphql";
 import { Layout } from "../../components/Layout";
 import { Box, Heading, Text } from "@chakra-ui/core";
+import { useGetPostFromUrl } from "../../utils/useGetPostFromUrl ";
 
 const Post: NextPage = () => {
-	const router = useRouter();
-	const param = router.query.id;
-	const id = typeof param === "string" ? parseInt(param) : -1;
-	const [{ data, fetching, error }] = usePostQuery({
-		pause: id === -1,
-		variables: {
-			id: id,
-		},
-	});
+	const [{ data, error, fetching }] = useGetPostFromUrl();
 
 	if (error) {
 		console.log("error", error.message);

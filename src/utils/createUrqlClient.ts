@@ -11,7 +11,8 @@ import {
 	MeDocument,
 	LogoutMutation,
 	RegisterMutation,
-	VoteMutationVariables,, DeletePostMutationVariables
+	VoteMutationVariables,
+	DeletePostMutationVariables,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import Router from "next/router";
@@ -74,7 +75,7 @@ const cursorPagination = (): Resolver => {
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 	let cookie = "";
 	if (isServer()) {
-		cookie = ctx.req.headers.cookie;
+		cookie = ctx?.req?.headers?.cookie;
 	}
 	return {
 		url: "http://localhost:4000/graphql",
@@ -95,8 +96,8 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 						deletePost: (_result, args, cache, _) => {
 							cache.invalidate({
 								__typename: "Post",
-								id: (args as DeletePostMutationVariables).id
-							})
+								id: (args as DeletePostMutationVariables).id,
+							});
 						},
 						vote: (_result, args, cache, _) => {
 							const {
