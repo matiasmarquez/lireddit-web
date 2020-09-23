@@ -1,24 +1,12 @@
+import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import {
-	useDeletePostMutation,
-	useMeQuery,
-	usePostsQuery,
-} from "../generated/graphql";
-import { Layout } from "../components/Layout";
-import {
-	Box,
-	Button,
-	Flex,
-	Heading,
-	IconButton,
-	Link,
-	Stack,
-	Text,
-} from "@chakra-ui/core";
 import NextLink from "next/link";
 import React, { useState } from "react";
+import { Layout } from "../components/Layout";
+import { PostActions } from "../components/PostActions";
 import { UpdootSection } from "../components/UpdootSection";
+import { useMeQuery, usePostsQuery } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
 	const [variables, setVariables] = useState({
@@ -26,12 +14,9 @@ const Index = () => {
 		cursor: null as null | string,
 	});
 
-	const [{ data: meData }] = useMeQuery();
 	const [{ data, fetching }] = usePostsQuery({
 		variables,
 	});
-
-	const [, deletePost] = useDeletePostMutation();
 
 	return (
 		<Layout>
@@ -70,37 +55,10 @@ const Index = () => {
 											</Text>
 											<Text mt={4}>{p.shortText}</Text>
 										</Box>
-										{meData?.me?.id !==
-										p.author.id ? null : (
-											<Box>
-												<NextLink
-													href="/post/edit/[id]"
-													as={`/post/edit/${p.id}`}
-												>
-													<IconButton
-														as={Link}
-														icon="edit"
-														aria-label="Edit post"
-														size="sm"
-														onClick={() => {
-															console.log("edit");
-														}}
-													/>
-												</NextLink>
-												<IconButton
-													ml={3}
-													variantColor="red"
-													icon="delete"
-													aria-label="Delete post"
-													size="sm"
-													onClick={() => {
-														deletePost({
-															id: p.id,
-														});
-													}}
-												/>
-											</Box>
-										)}
+										<PostActions
+											id={p.id}
+											authorId={p.author.id}
+										/>
 									</Flex>
 								</Box>
 							</Flex>

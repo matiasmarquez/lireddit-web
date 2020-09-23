@@ -3,8 +3,9 @@ import { NextPage } from "next";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import { Layout } from "../../components/Layout";
-import { Box, Heading, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Text } from "@chakra-ui/core";
 import { useGetPostFromUrl } from "../../utils/useGetPostFromUrl ";
+import { PostActions } from "../../components/PostActions";
 
 const Post: NextPage = () => {
 	const [{ data, error, fetching }] = useGetPostFromUrl();
@@ -27,7 +28,10 @@ const Post: NextPage = () => {
 
 	return (
 		<Layout>
-			<Heading mb={4}>{data.post.title}</Heading>
+			<Flex align="center" justify="space-between">
+				<Heading mb={4}>{data.post.title}</Heading>
+				<PostActions id={data.post.id} authorId={data.post.author.id} />
+			</Flex>
 			<Text>{data.post.text}</Text>
 		</Layout>
 	);
